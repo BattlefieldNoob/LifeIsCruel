@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	Text humanChatText;
 
+	[SerializeField]
+	float doggoWriteDelay=0.5f;
 
 	// Use this for initialization
 	void Start () {
@@ -80,6 +82,7 @@ public class GameManager : MonoBehaviour {
 
 	bool HumanTalked=false;
 	bool DoggoTalked=false;
+	bool DoggoWriting=false;
 
 	string[] doggoWords=new string[]{"bork", "bark", "doge", "meow"};
 
@@ -94,10 +97,13 @@ public class GameManager : MonoBehaviour {
 			//aspetto la risposta (inutile) del giocatore
 			if (HumanTalked) {
 				//aspetto un pò di tempo e poi passo al punch time
+				choseHumanPhrase = -1;
+				humanPhraseIndex = 0;
 				GoToPunchTime ();
 			} else {
 				if (choseHumanPhrase == -1) {
 					choseHumanPhrase = Random.Range (0, humanPhrases.Length - 1);
+					humanChatText.text = "Me : ";
 				}
 				//aspetto che il giocatore scriva e prema invio
 				if(Input.GetKeyDown(KeyCode.Return)){
@@ -115,9 +121,30 @@ public class GameManager : MonoBehaviour {
 			}
 		} else {
 			//il doggo dice:
-			doggoChatText.text=doggoWords[Random.Range(0,doggoWords.Length-1)];
+			if(!DoggoWriting)
+				StartCoroutine(DoggoWrite(doggoWords[Random.Range(0,doggoWords.Length-1)]));
 			DoggoTalked = true;
 		}
 	}
+
+	string[] doggoNames=new string[]{"Martin", "Lerry", "Alvaro", "Arcibaldo","Coboldo","Michele Misseri"};
+
+
+	IEnumerator DoggoWrite(string text){
+		DoggoWriting = true;
+		var charIndex = 0;
+		doggoChatText.text = doggoNames[Random.Range(0,doggoNames.Length)]+" : ";
+		while (charIndex < text.Length) {
+			doggoChatText.text += text [charIndex];
+			charIndex++;
+			yield return new WaitForSeconds (doggoWriteDelay);
+		}
+		DoggoTalked = true;
+		DoggoWriting = false;
+		yield return null;
+	}
+
 }
+
+
 	
