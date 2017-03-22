@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour {
 	Image gameStateImage;
 
 	[SerializeField]
+	GameObject zonaChat;
+
+	[SerializeField]
 	CaneFronte canefronte;
 
 	[SerializeField]
@@ -65,7 +68,8 @@ public class GameManager : MonoBehaviour {
 		gameState = State.CHATTIME;
 		canelato.gameObject.SetActive (true);
 		canefronte.gameObject.SetActive (false);
-		gameStateImage.sprite = chatTimeSprite;
+	//	gameStateImage.sprite = chatTimeSprite;
+		StartCoroutine (ChangePhaseSprite (chatTimeSprite));
 		HumanTalked=false;
 		DoggoTalked=false;
 		//riprodurre suono fastidioso
@@ -76,7 +80,8 @@ public class GameManager : MonoBehaviour {
 		punchTimeCounter = Random.Range (2f, 4f); //la durata del punchTime è casuale 
 		canelato.gameObject.SetActive (false);
 		canefronte.gameObject.SetActive (true);
-		gameStateImage.sprite = punchTimeSprite;
+		StartCoroutine (ChangePhaseSprite (punchTimeSprite));
+		//gameStateImage.sprite = punchTimeSprite;
 		//riprodurre suono fastidioso
 	}
 
@@ -144,6 +149,42 @@ public class GameManager : MonoBehaviour {
 		yield return null;
 	}
 
+
+
+	IEnumerator ChangePhaseSprite(Sprite toSprite){
+		var startPos = new Vector3 (0, 0, 0);
+		var scaleTime = 1.4f;
+		var actualScaleTime = 0f;
+
+		var maxScale = 3;
+		var minScale = 0;
+
+		var waitTime = 0.1f;
+		gameStateImage.enabled = true;
+		gameStateImage.rectTransform.localPosition=startPos;
+		gameStateImage.sprite = toSprite;
+		float counter = 0;
+		actualScaleTime = scaleTime * Random.Range (0.75f, 1.5f); 
+		float apex = actualScaleTime / 2;
+		while (counter <= actualScaleTime) {
+			float a = (maxScale - minScale) / apex * waitTime;
+			if (counter <= apex) {
+				gameStateImage.rectTransform.localScale += new Vector3 (a, a, 0);
+
+			} else {
+				gameStateImage.rectTransform.localScale -= new Vector3 (a, a, 0);
+			}
+			counter += waitTime;
+			yield return new WaitForSeconds (waitTime);
+		}
+		transform.localScale = new Vector3 (minScale, minScale, 0);
+		gameStateImage.enabled = false;
+		if (zonaChat.activeSelf)
+			zonaChat.SetActive (false);
+		else
+			zonaChat.SetActive (true);
+	
+	}
 }
 
 
