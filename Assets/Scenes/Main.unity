@@ -270,11 +270,11 @@ RectTransform:
   m_Father: {fileID: 1133556030}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6, y: 47.5}
-  m_SizeDelta: {x: 316, y: 95}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 4.75, y: 0}
+  m_SizeDelta: {x: 197.5, y: 47.5}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &349942128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,7 +649,7 @@ GameObject:
   - component: {fileID: 1133556032}
   - component: {fileID: 1133556031}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: ChatPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -670,11 +670,11 @@ RectTransform:
   m_Father: {fileID: 1851585322}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 297, y: -178}
-  m_SizeDelta: {x: -593, y: -357}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -17, y: 13.730011}
+  m_SizeDelta: {x: 207, y: 93}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &1133556031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,11 +738,11 @@ RectTransform:
   m_Father: {fileID: 1133556030}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6, y: -58.5}
-  m_SizeDelta: {x: 316, y: 95}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 4.75, y: 0}
+  m_SizeDelta: {x: 197.5, y: 47.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1400974064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,7 +769,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 61
-    m_Alignment: 0
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -860,7 +860,7 @@ GameObject:
   - component: {fileID: 1670511028}
   - component: {fileID: 1670511030}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: ImagePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -882,7 +882,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -310, y: 119}
+  m_AnchoredPosition: {x: -184, y: 119}
   m_SizeDelta: {x: -620, y: -237}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1670511030
@@ -936,7 +936,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
