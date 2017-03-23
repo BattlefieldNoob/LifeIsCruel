@@ -15,6 +15,8 @@ public class Puncher : MonoBehaviour
     public GameObject pugno_dx;
     public GameObject pugno_sx;
 
+    Coroutine c; 
+
     bool b;
 
     SpriteRenderer sp;
@@ -33,11 +35,21 @@ public class Puncher : MonoBehaviour
             aus = GetComponent<AudioSource>();
         }
 
-        if (Input.GetMouseButtonDown(0))
-            StartCoroutine(ContinuousPunch()); 
+        //if (Input.GetMouseButtonDown(0))
+        //    StartCoroutine(ContinuousPunch()); 
     }
 
-    public void Punch()
+    public void StartPunching()
+    {
+        c = StartCoroutine(ContinuousPunch());
+    }
+
+    public void StopPunching()
+    {
+        StopCoroutine(c); 
+    }
+
+    void Punch()
     {
         b = !b; 
         ready.SetActive(false);
@@ -49,6 +61,7 @@ public class Puncher : MonoBehaviour
             {
                 Pugno pd = pugno_dx.GetComponent<Pugno>();
                 pd.Punch();
+                aus.PlayOneShot(bark);
             }
         }
         else
@@ -57,11 +70,9 @@ public class Puncher : MonoBehaviour
             {
                 Pugno ps = pugno_sx.GetComponent<Pugno>();
                 ps.Punch();
+                aus.PlayOneShot(bark);
             }
         }
-
-        aus.PlayOneShot(bark);
-
     }
 
     IEnumerator ContinuousPunch()

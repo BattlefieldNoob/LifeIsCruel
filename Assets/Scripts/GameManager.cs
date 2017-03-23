@@ -3,189 +3,209 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
+    enum State { DEFAULT, PUNCHTIME, CHATTIME };
 
-	enum State{PUNCHTIME,CHATTIME};
+    #region serialized_fields
+    [SerializeField]
+    State gameState = State.DEFAULT;
+    [SerializeField]
+    Image gameStateImage;
+    [SerializeField]
+    GameObject zonaChat;
+    [SerializeField]
+    GameObject canefronte;
+    [SerializeField]
+    GameObject canelato;
+    [SerializeField]
+    Sprite punchTimeSprite;
+    [SerializeField]
+    Sprite chatTimeSprite;
+    [SerializeField]
+    float punchTimeCounter;
+    [SerializeField]
+    Text doggoChatText;
+    [SerializeField]
+    Text humanChatText;
+    [SerializeField]
+    float doggoWriteDelay = 0.5f;
+    #endregion
 
-	[SerializeField]
-	State gameState=State.CHATTIME;
+    #region conversation
+    bool HumanTalked = false;
+    bool DoggoTalked = false;
+    bool DoggoWriting = false;
 
+    string[] doggoWords = new string[] { "I love you Gerard", "You are so childish" };
 
-	[SerializeField]
-	Image gameStateImage;
+    string[] humanPhrases = new string[] { "LOL u a dog", "Do the dab!" };
 
-	[SerializeField]
-	GameObject zonaChat;
+    string[] doggoNames = new string[] { "Jack" };
 
-	[SerializeField]
-	CaneFronte canefronte;
+    int humanPhraseIndex = 0;
 
-	[SerializeField]
-	CaneLato canelato;
+    int choseHumanPhrase = -1;
+    #endregion
 
+    bool doingStuff = false;
+    int globalCounter = 0;
+    public int iterationNumber = 0;
 
-	[SerializeField]
-	Sprite punchTimeSprite;
+    // Use this for initialization
+    void Start()
+    {
+        GoToChatTime();
+    }
 
-	[SerializeField]
-	Sprite chatTimeSprite;
+    void GoToChatTime()
+    {
+        ResetPunchers();
+        StartCoroutine(ChangePhaseShowingWrite(chatTimeSprite, State.CHATTIME));
+        //riprodurre suono fastidioso
+    }
 
-	[SerializeField]
-	float punchTimeCounter;
+    void GoToPunchTime()
+    {
+        globalCounter++;
+        ResetChat();
+        StartCoroutine(ChangePhaseShowingWrite(punchTimeSprite, State.PUNCHTIME));
+        //riprodurre suono fastidioso
+    }
 
+    IEnumerator Punching()
+    {
+        canefronte.GetComponent<Puncher>().StartPunching();
+        yield return new WaitForSeconds(5);
+        canefronte.GetComponent<Puncher>().StopPunching();
+        yield return new WaitForSeconds(1);
+        if (globalCounter >= iterationNumber)
+        {
+            print("E' FINITO TUTTO");
+        }
+        else
+        {
+            GoToChatTime();
+        }
+    }
 
-	[SerializeField]
-	Text doggoChatText;
+    IEnumerator DoggoWrite()
+    {
+        DoggoWriting = true;
+        var charIndex = 0;
+        doggoChatText.text = doggoNames[Random.Range(0, doggoNames.Length)] + " : ";
+        string text = doggoWords[globalCounter];
+        while (charIndex < text.Length)
+        {
+            doggoChatText.text += text[charIndex];
+            charIndex++;
+            yield return new WaitForSeconds(doggoWriteDelay);
+        }
+        DoggoTalked = true;
+        DoggoWriting = false;
+        StartCoroutine(HumanWrite());
+        yield return null;
+    }
 
-	[SerializeField]
-	Text humanChatText;
+    IEnumerator HumanWrite()
+    {
+        bool humanEndedWriting = false;
+        while (!humanEndedWriting)
+        {
+            if (choseHumanPhrase == -1)
+            {
+                choseHumanPhrase = globalCounter;
+                humanChatText.text = "Me : ";
+            }
+            if (Input.anyKeyDown)
+            {
+                //scrivo una cosa a caso 
+                if (humanPhraseIndex < humanPhrases[choseHumanPhrase].Length)
+                {
+                    humanChatText.text += humanPhrases[choseHumanPhrase][humanPhraseIndex];
+                    humanPhraseIndex++;
+                }
+                else
+                {
+                    humanEndedWriting = true;
+                    yield return new WaitForSeconds(.5f);
+                    GoToPunchTime();
+                }
+            }
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
 
-	[SerializeField]
-	float doggoWriteDelay=0.5f;
+    IEnumerator ChangePhaseShowingWrite(Sprite toSprite, State stateToGo)
+    {
+        doingStuff = true;
 
-	// Use this for initialization
-	void Start () {
-		GoToChatTime();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (gameState == State.CHATTIME) {
-			//aspetta che ci sia una conversazione
-			Conversate();
-		} else if (gameState == State.PUNCHTIME) {
-			//aspetta finchè il punch time non sia finito
-			punchTimeCounter-=Time.deltaTime;
-			if (punchTimeCounter <= 0) {
-				//vai alla fase chat time
-				GoToChatTime();
-			}
-		}
-		
-	}
+        var startPos = new Vector3(0, 0, 0);
+        var scaleTime = 1.4f;
+        var actualScaleTime = 0f;
+        var maxScale = 3;
+        var minScale = 0;
+        var waitTime = 0.1f;
 
-	private void GoToChatTime(){
-		gameState = State.CHATTIME;
-		canelato.gameObject.SetActive (true);
-		canefronte.gameObject.SetActive (false);
-	//	gameStateImage.sprite = chatTimeSprite;
-		StartCoroutine (ChangePhaseSprite (chatTimeSprite));
-		HumanTalked=false;
-		DoggoTalked=false;
-		//riprodurre suono fastidioso
-	}
+        gameStateImage.enabled = true;
+        gameStateImage.rectTransform.localPosition = startPos;
+        gameStateImage.sprite = toSprite;
+        float counter = 0;
+        actualScaleTime = scaleTime * Random.Range(0.75f, 1.5f);
+        float apex = actualScaleTime / 2;
+        while (counter <= actualScaleTime)
+        {
+            float a = (maxScale - minScale) / apex * waitTime;
+            if (counter <= apex)
+            {
+                gameStateImage.rectTransform.localScale += new Vector3(a, a, 0);
 
-	private void GoToPunchTime(){
-		gameState = State.PUNCHTIME;
-		punchTimeCounter = Random.Range (2f, 4f); //la durata del punchTime è casuale 
-		canelato.gameObject.SetActive (false);
-		canefronte.gameObject.SetActive (true);
-		StartCoroutine (ChangePhaseSprite (punchTimeSprite));
-		//gameStateImage.sprite = punchTimeSprite;
-		//riprodurre suono fastidioso
-	}
+            }
+            else
+            {
+                gameStateImage.rectTransform.localScale -= new Vector3(a, a, 0);
+            }
+            counter += waitTime;
+            yield return new WaitForSeconds(waitTime);
+        }
+        transform.localScale = new Vector3(minScale, minScale, 0);
+        gameStateImage.enabled = false;
 
-	bool HumanTalked=false;
-	bool DoggoTalked=false;
-	bool DoggoWriting=false;
+        gameState = stateToGo;
+        EndendPhaseChange(stateToGo);
+        doingStuff = false;
+    }
 
-	string[] doggoWords=new string[]{"bork", "bark", "doge", "meow"};
+    void EndendPhaseChange(State s)
+    {
+        if (s == State.CHATTIME)
+        {
+            canelato.SetActive(true);
+            HumanTalked = false;
+            DoggoTalked = false;
+            zonaChat.SetActive(true);
+            StartCoroutine(DoggoWrite());
+        }
 
-	string[] humanPhrases=new string[]{"hello", "i'm faggot!", "dog piece of shit!", "please i have a family!"};
+        else if (s == State.PUNCHTIME)
+        {
+            canefronte.SetActive(true);
+            StartCoroutine(Punching());
+        }
+    }
 
-	int humanPhraseIndex=0;
+    void ResetChat()
+    {
+        choseHumanPhrase = -1;
+        humanPhraseIndex = 0;
+        zonaChat.SetActive(false);
+        canelato.SetActive(false);
+        doggoChatText.text = "";
+        humanChatText.text = "";
+    }
 
-	int choseHumanPhrase = -1;
-
-	private void Conversate(){
-		if (DoggoTalked) {
-			//aspetto la risposta (inutile) del giocatore
-			if (HumanTalked) {
-				//aspetto un pò di tempo e poi passo al punch time
-				choseHumanPhrase = -1;
-				humanPhraseIndex = 0;
-				GoToPunchTime ();
-			} else {
-				if (choseHumanPhrase == -1) {
-					choseHumanPhrase = Random.Range (0, humanPhrases.Length - 1);
-					humanChatText.text = "Me : ";
-				}
-				//aspetto che il giocatore scriva e prema invio
-				if(Input.GetKeyDown(KeyCode.Return)){
-					humanChatText.text=humanPhrases[choseHumanPhrase];
-					HumanTalked = true;
-				}else if (Input.anyKeyDown) {
-					//scrivo una cosa a caso 
-					humanChatText.text+=humanPhrases[choseHumanPhrase][humanPhraseIndex];
-					if (humanPhraseIndex < humanPhrases [choseHumanPhrase].Length-1)
-						humanPhraseIndex++;
-					else
-						HumanTalked = true;
-				}
-
-			}
-		} else {
-			//il doggo dice:
-			if(!DoggoWriting)
-				StartCoroutine(DoggoWrite(doggoWords[Random.Range(0,doggoWords.Length-1)]));
-			DoggoTalked = true;
-		}
-	}
-
-	string[] doggoNames=new string[]{"Martin", "Lerry", "Alvaro", "Arcibaldo","Coboldo","Michele Misseri"};
-
-
-	IEnumerator DoggoWrite(string text){
-		DoggoWriting = true;
-		var charIndex = 0;
-		doggoChatText.text = doggoNames[Random.Range(0,doggoNames.Length)]+" : ";
-		while (charIndex < text.Length) {
-			doggoChatText.text += text [charIndex];
-			charIndex++;
-			yield return new WaitForSeconds (doggoWriteDelay);
-		}
-		DoggoTalked = true;
-		DoggoWriting = false;
-		yield return null;
-	}
-
-
-
-	IEnumerator ChangePhaseSprite(Sprite toSprite){
-		var startPos = new Vector3 (0, 0, 0);
-		var scaleTime = 1.4f;
-		var actualScaleTime = 0f;
-
-		var maxScale = 3;
-		var minScale = 0;
-
-		var waitTime = 0.1f;
-		gameStateImage.enabled = true;
-		gameStateImage.rectTransform.localPosition=startPos;
-		gameStateImage.sprite = toSprite;
-		float counter = 0;
-		actualScaleTime = scaleTime * Random.Range (0.75f, 1.5f); 
-		float apex = actualScaleTime / 2;
-		while (counter <= actualScaleTime) {
-			float a = (maxScale - minScale) / apex * waitTime;
-			if (counter <= apex) {
-				gameStateImage.rectTransform.localScale += new Vector3 (a, a, 0);
-
-			} else {
-				gameStateImage.rectTransform.localScale -= new Vector3 (a, a, 0);
-			}
-			counter += waitTime;
-			yield return new WaitForSeconds (waitTime);
-		}
-		transform.localScale = new Vector3 (minScale, minScale, 0);
-		gameStateImage.enabled = false;
-		if (zonaChat.activeSelf)
-			zonaChat.SetActive (false);
-		else
-			zonaChat.SetActive (true);
-	
-	}
+    void ResetPunchers()
+    {
+        canefronte.SetActive(false);
+    }
 }
-
-
-	
