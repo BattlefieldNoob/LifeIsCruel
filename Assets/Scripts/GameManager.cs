@@ -52,6 +52,11 @@ public class GameManager : MonoBehaviour
     int globalCounter = 0;
     public int iterationNumber = 0;
 
+    [Header("AUDIO")]
+    public AudioSource audioSource;
+    public AudioClip chatTime;
+    public AudioClip punchTime;
+
     // Use this for initialization
     void Start()
     {
@@ -62,7 +67,8 @@ public class GameManager : MonoBehaviour
     {
         ResetPunchers();
         StartCoroutine(ChangePhaseShowingWrite(chatTimeSprite, State.CHATTIME));
-        //riprodurre suono fastidioso
+        audioSource.clip = chatTime;
+        audioSource.Play();
     }
 
     void GoToPunchTime()
@@ -70,7 +76,8 @@ public class GameManager : MonoBehaviour
         globalCounter++;
         ResetChat();
         StartCoroutine(ChangePhaseShowingWrite(punchTimeSprite, State.PUNCHTIME));
-        //riprodurre suono fastidioso
+        audioSource.clip = punchTime;
+        audioSource.Play();
     }
 
     IEnumerator Punching()
@@ -143,23 +150,22 @@ public class GameManager : MonoBehaviour
         var startPos = new Vector3(0, 0, 0);
         var scaleTime = 1.4f;
         var actualScaleTime = 0f;
-        var maxScale = 3;
+        var maxScale = 1.8f;
         var minScale = 0;
-        var waitTime = 0.1f;
+        var waitTime = 0.01f;
 
         gameStateImage.enabled = true;
         gameStateImage.rectTransform.localPosition = startPos;
         gameStateImage.sprite = toSprite;
         float counter = 0;
-        actualScaleTime = scaleTime * Random.Range(0.75f, 1.5f);
+        actualScaleTime = scaleTime;
         float apex = actualScaleTime / 2;
+        float a = (maxScale - minScale) / apex * waitTime;
         while (counter <= actualScaleTime)
         {
-            float a = (maxScale - minScale) / apex * waitTime;
             if (counter <= apex)
             {
                 gameStateImage.rectTransform.localScale += new Vector3(a, a, 0);
-
             }
             else
             {

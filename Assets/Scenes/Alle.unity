@@ -358,6 +358,9 @@ MonoBehaviour:
   humanChatText: {fileID: 1400974064}
   doggoWriteDelay: 0.2
   iterationNumber: 2
+  audioSource: {fileID: 777823191}
+  chatTime: {fileID: 8300000, guid: 9ed4a63cf72f9494f94d05c0e30386ec, type: 3}
+  punchTime: {fileID: 8300000, guid: 305397dc16d6e9f4f9365400f036f2aa, type: 3}
 --- !u!4 &446284897
 Transform:
   m_ObjectHideFlags: 0
@@ -380,7 +383,6 @@ GameObject:
   m_Component:
   - component: {fileID: 599903302}
   - component: {fileID: 599903301}
-  - component: {fileID: 599903303}
   - component: {fileID: 599903304}
   m_Layer: 0
   m_Name: CaneLato
@@ -437,17 +439,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &599903303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 599903300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de828a353df9d47458fafbf2f6893b16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &599903304
 Animator:
   serializedVersion: 3
@@ -673,7 +664,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -997,7 +988,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 58}
   m_SizeDelta: {x: 180, y: 213}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1670511030

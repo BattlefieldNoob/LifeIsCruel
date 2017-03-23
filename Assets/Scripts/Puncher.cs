@@ -60,8 +60,10 @@ public class Puncher : MonoBehaviour
             if (!pugno_sx.GetComponent<Pugno>().going)
             {
                 Pugno pd = pugno_dx.GetComponent<Pugno>();
+                if (!pd.punching)
+                    aus.PlayOneShot(bark);
                 pd.Punch();
-                aus.PlayOneShot(bark);
+
             }
         }
         else
@@ -69,8 +71,10 @@ public class Puncher : MonoBehaviour
             if (!pugno_dx.GetComponent<Pugno>().going)
             {
                 Pugno ps = pugno_sx.GetComponent<Pugno>();
+                if (!ps.punching)
+                    aus.PlayOneShot(bark);
                 ps.Punch();
-                aus.PlayOneShot(bark);
+
             }
         }
     }

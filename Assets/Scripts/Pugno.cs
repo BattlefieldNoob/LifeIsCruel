@@ -10,7 +10,7 @@ public class Pugno : MonoBehaviour
     public float punchTime;
     float actualPunchTime; 
     public float waitTime;
-    bool punching;
+    public bool punching;
     public bool going; 
     public void Punch()
     {
@@ -24,9 +24,9 @@ public class Pugno : MonoBehaviour
         float counter = 0;
         actualPunchTime = punchTime * Random.Range(0.75f, 1.5f); 
         float apex = actualPunchTime / 2;
+        float a = (maxScale - minScale) / apex * waitTime;
         while (counter <= actualPunchTime)
         {
-            float a = (maxScale - minScale) / apex * waitTime;
             if (counter <= apex)
             {
                 going = true; 
