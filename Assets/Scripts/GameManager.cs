@@ -58,6 +58,9 @@ public class GameManager : MonoBehaviour
     int globalCounter = 0;
     public int iterationNumber = 0;
 
+    public GameObject coltello1;
+    public GameObject coltello2; 
+
     [Header("AUDIO")]
     public AudioSource audioSource;
     public AudioClip chatTime;
@@ -88,6 +91,12 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Punching()
     {
+        if (globalCounter == 2)
+        {
+            coltello1.SetActive(true);
+            coltello2.SetActive(true);
+        }
+
         canefronte.GetComponent<Puncher>().StartPunching();
         yield return new WaitForSeconds(5);
         canefronte.GetComponent<Puncher>().StopPunching();

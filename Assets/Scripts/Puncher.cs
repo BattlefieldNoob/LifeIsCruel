@@ -6,10 +6,6 @@ public class Puncher : MonoBehaviour
 {
 
     public GameObject ready;
-    public GameObject punch;
-    public GameObject parata;
-    public Sprite puchFace;
-    public Sprite parataFace;
     public AudioClip bark;
 
     public GameObject pugno_dx;
@@ -20,7 +16,7 @@ public class Puncher : MonoBehaviour
     bool b;
 
     SpriteRenderer sp;
-    AudioSource aus;
+    public AudioSource aus;
 
     // Update is called once per frame
     void Update()
@@ -28,11 +24,6 @@ public class Puncher : MonoBehaviour
         if (sp == null)
         {
             sp = GetComponent<SpriteRenderer>();
-        }
-
-        if (aus == null)
-        {
-            aus = GetComponent<AudioSource>();
         }
 
         //if (Input.GetMouseButtonDown(0))
@@ -61,7 +52,9 @@ public class Puncher : MonoBehaviour
             {
                 Pugno pd = pugno_dx.GetComponent<Pugno>();
                 if (!pd.punching)
-                    aus.PlayOneShot(bark);
+                {
+                    PlayBork(); 
+                }
                 pd.Punch();
 
             }
@@ -72,11 +65,23 @@ public class Puncher : MonoBehaviour
             {
                 Pugno ps = pugno_sx.GetComponent<Pugno>();
                 if (!ps.punching)
-                    aus.PlayOneShot(bark);
+                {
+                    PlayBork(); 
+                }
                 ps.Punch();
 
             }
         }
+    }
+
+    void PlayBork()
+    {
+        //if (!aus.isPlaying)
+        //{
+        //    aus.clip = bark;
+        //    aus.Play();
+        //}
+        aus.PlayOneShot(bark); 
     }
 
     IEnumerator ContinuousPunch()
