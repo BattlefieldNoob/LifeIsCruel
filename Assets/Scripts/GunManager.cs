@@ -12,10 +12,15 @@ public class GunManager : MonoBehaviour {
 	[SerializeField]
 	GameObject CaneFronte;
 
+    AudioSource audioSource;
+
+    public AudioClip gunShot; 
+
 	// Use this for initialization
 	void Start () {
 		gun = transform.FindChild ("gun");
 		hitler = transform.FindChild ("hitler");
+        audioSource = GameObject.Find("AGUN").GetComponent<AudioSource>(); 
 	}
 	
 	// Update is called once per frame
@@ -34,6 +39,8 @@ public class GunManager : MonoBehaviour {
 
 
 		if (Input.GetMouseButtonDown (0)) {
+            audioSource.clip = gunShot; 
+            audioSource.Play(); 
 			if (distancefromCane < distancefromHitler) {
 				Debug.Log ("Clicked on cane");
 			} else{

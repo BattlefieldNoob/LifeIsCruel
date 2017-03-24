@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip chatTime;
     public AudioClip punchTime;
+    public AudioClip ending; 
 
     // Use this for initialization
     void Start()
@@ -103,15 +104,22 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         if (globalCounter >= iterationNumber)
         {
-			print ("E' FINITO TUTTO");
-			gunManager.gameObject.SetActive (true);
-			gameObject.SetActive (false);
-			Computer.SetActive (false);
+            GoToEnding(); 
         }
         else
         {
             GoToChatTime();
         }
+    }
+
+    void GoToEnding()
+    {
+        print("E' FINITO TUTTO");
+        gunManager.gameObject.SetActive(true);
+        gameObject.SetActive(false);
+        Computer.SetActive(false);
+        audioSource.clip = ending;
+        audioSource.Play(); 
     }
 
     IEnumerator DoggoWrite()
