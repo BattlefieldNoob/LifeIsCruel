@@ -11,7 +11,11 @@ public class Pugno : MonoBehaviour
     float actualPunchTime; 
     public float waitTime;
     public bool punching;
-    public bool going; 
+    public bool going;
+
+    public AudioSource aus; 
+    public AudioClip[] screams;
+
     public void Punch()
     {
         if (!punching)
@@ -34,6 +38,14 @@ public class Pugno : MonoBehaviour
             }
             else
             {
+                if (going)
+                {
+                    if (!aus.isPlaying)
+                    {
+                        aus.clip = screams[Random.Range(0, screams.Length)];
+                        aus.Play();
+                    }
+                }
                 going = false; 
                 Sgonfia(a);
             }
