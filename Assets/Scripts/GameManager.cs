@@ -30,6 +30,12 @@ public class GameManager : MonoBehaviour
     Text humanChatText;
     [SerializeField]
     float doggoWriteDelay = 0.5f;
+
+	[SerializeField]
+	GunManager gunManager;
+
+	[SerializeField]
+	GameObject Computer;
     #endregion
 
     #region conversation
@@ -88,7 +94,10 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         if (globalCounter >= iterationNumber)
         {
-            print("E' FINITO TUTTO");
+			print ("E' FINITO TUTTO");
+			gunManager.gameObject.SetActive (true);
+			gameObject.SetActive (false);
+			Computer.SetActive (false);
         }
         else
         {
