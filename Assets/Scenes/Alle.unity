@@ -212,6 +212,24 @@ Prefab:
       propertyPath: finalText
       value: 
       objectReference: {fileID: 1913457809}
+    - target: {fileID: 114611463936451406, guid: fbf3733ef968ec641880980ca66b0d70,
+        type: 2}
+      propertyPath: shotAtDoggoMessage
+      value: 'Fascism triumphs. All dogs are brutally assassinated.
+
+
+        You are free now, but for how long?'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114611463936451406, guid: fbf3733ef968ec641880980ca66b0d70,
+        type: 2}
+      propertyPath: shotAtHitlerMessage
+      value: "Dogs take the lead of the country by the mean of violence. \n\nYou will
+        forever be the slave of your canine owner. "
+      objectReference: {fileID: 0}
+    - target: {fileID: 1994967110879948, guid: fbf3733ef968ec641880980ca66b0d70, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fbf3733ef968ec641880980ca66b0d70, type: 2}
   m_IsPrefabParent: 0
@@ -864,6 +882,10 @@ Prefab:
       propertyPath: Computer
       value: 
       objectReference: {fileID: 625673968}
+    - target: {fileID: 1592451848585006, guid: 6bbad75711b2f664d89aec010da2bc85, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6bbad75711b2f664d89aec010da2bc85, type: 2}
   m_IsPrefabParent: 0
@@ -1138,7 +1160,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -1572,9 +1594,9 @@ RectTransform:
   m_Father: {fileID: 1890299158}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.0000076293945, y: 68.45}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.0000076293945, y: 0}
   m_SizeDelta: {x: 444.2, y: 136.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2029346305 stripped

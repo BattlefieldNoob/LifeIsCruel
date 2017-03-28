@@ -59,9 +59,11 @@ public class GunManager : MonoBehaviour {
 
 		}
 	}
-
-	private string shotAtDoggoMessage="YOU KILLED DOGGO!";
-	private string shotAtHitlerMessage="YOU KILLED HITLER!";
+    [Space]
+    [TextArea]
+	public string shotAtDoggoMessage="YOU KILLED DOGGO!";
+    [TextArea]
+    public string shotAtHitlerMessage="YOU KILLED HITLER!";
 
 
 	private void FadeAndShowFinalMessage(bool shotAtDoggo){

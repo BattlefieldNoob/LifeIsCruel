@@ -58,7 +58,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4323395026911088
 Transform:
   m_ObjectHideFlags: 1
@@ -112,6 +112,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CaneFronte: {fileID: 0}
+  gunShot: {fileID: 8300000, guid: a35b8b619352be64d926558eb2200137, type: 3}
+  fadePanel: {fileID: 0}
+  finalText: {fileID: 0}
+  shotAtDoggoMessage: 'Fascism triumphs. All dogs are brutally assassinated.
+
+
+    You are free now, but for how long?'
+  shotAtHitlerMessage: "Dogs take the lead of the country by the mean of violence.
+    \n\nYou will forever be the slave of your canine owner. "
 --- !u!212 &212482081146039840
 SpriteRenderer:
   m_ObjectHideFlags: 1
