@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunManager : MonoBehaviour {
 
@@ -15,6 +16,13 @@ public class GunManager : MonoBehaviour {
     AudioSource audioSource;
 
     public AudioClip gunShot; 
+
+
+	[SerializeField]
+	Image fadePanel;
+
+	[SerializeField]
+	Text finalText;
 
 	// Use this for initialization
 	void Start () {
@@ -43,10 +51,34 @@ public class GunManager : MonoBehaviour {
             audioSource.Play(); 
 			if (distancefromCane < distancefromHitler) {
 				Debug.Log ("Clicked on cane");
+				FadeAndShowFinalMessage (true);
 			} else{
 				Debug.Log ("Clicked on Hitler");
+				FadeAndShowFinalMessage (false);
 			}
 
+		}
+	}
+
+	private string shotAtDoggoMessage="YOU KILLED DOGGO!";
+	private string shotAtHitlerMessage="YOU KILLED HITLER!";
+
+
+	private void FadeAndShowFinalMessage(bool shotAtDoggo){
+		finalText.text = shotAtDoggo ? shotAtDoggoMessage : shotAtHitlerMessage;
+		StartCoroutine (FadeAndText ());
+	}
+
+
+	IEnumerator FadeAndText(){
+		while (fadePanel.color.a < 0.99f) {
+			fadePanel.color = Color.Lerp (fadePanel.color, Color.black, Time.deltaTime * 2);
+			yield return new WaitForEndOfFrame ();
+		}
+
+		while (finalText.color.a < 0.99f) {
+			finalText.color = Color.Lerp (finalText.color, Color.white, Time.deltaTime * 2);
+			yield return new WaitForEndOfFrame ();
 		}
 	}
 }
