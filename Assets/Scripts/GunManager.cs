@@ -15,8 +15,8 @@ public class GunManager : MonoBehaviour {
 
     AudioSource audioSource;
 
-    public AudioClip gunShot; 
-
+    public AudioClip gunShot;
+    public GameObject chooseCarefullyText; 
 
 	[SerializeField]
 	Image fadePanel;
@@ -28,7 +28,8 @@ public class GunManager : MonoBehaviour {
 	void Start () {
 		gun = transform.FindChild ("gun");
 		hitler = transform.FindChild ("hitler");
-        audioSource = GameObject.Find("AGUN").GetComponent<AudioSource>(); 
+        audioSource = GameObject.Find("AGUN").GetComponent<AudioSource>();
+        chooseCarefullyText.SetActive(true); 
 	}
 	
 	// Update is called once per frame
@@ -67,7 +68,8 @@ public class GunManager : MonoBehaviour {
 
 
 	private void FadeAndShowFinalMessage(bool shotAtDoggo){
-		finalText.text = shotAtDoggo ? shotAtDoggoMessage : shotAtHitlerMessage;
+        chooseCarefullyText.SetActive(false); 
+        finalText.text = shotAtDoggo ? shotAtDoggoMessage : shotAtHitlerMessage;
 		StartCoroutine (FadeAndText ());
 	}
 
