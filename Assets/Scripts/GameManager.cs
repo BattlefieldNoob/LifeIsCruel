@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,6 +31,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Text humanChatText;
     [SerializeField]
+    RectTransform WriteHereHint;
+    [SerializeField]
     float doggoWriteDelay = 0.5f;
 
 	[SerializeField]
@@ -48,6 +52,8 @@ public class GameManager : MonoBehaviour
     string[] humanPhrases = new string[] { "LOL u a dog", "Do the dab!" };
 
     string[] doggoNames = new string[] { "Jack" };
+
+    string playerName = "Me";
 
     int humanPhraseIndex = 0;
 
@@ -70,7 +76,27 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
+        RetriveUserName();
+
         GoToChatTime();
+    }
+
+
+
+    void RetriveUserName()
+    {
+        var username = Environment.UserName;
+        if (!string.IsNullOrEmpty(username))
+        {
+            playerName = username;
+            
+            //aggiorno la distanza della scritta Write Here sulla base della lunghezza del nome utente
+
+            //14 è la distanza di due spazi e il carattere ':', il moltiplicatore 8 è una media ed è stato ottenuto empiricamente
+            var leftDistance = 14 + playerName.Length * 8;
+            WriteHereHint.offsetMin=new Vector2(leftDistance,0);
+        }
     }
 
     void GoToChatTime()
@@ -148,15 +174,25 @@ public class GameManager : MonoBehaviour
             if (choseHumanPhrase == -1)
             {
                 choseHumanPhrase = globalCounter;
-                humanChatText.text = "Me : ";
+                humanChatText.text = playerName+" : ";
+                WriteHereHint.gameObject.SetActive(true);
             }
             if (Input.anyKeyDown)
             {
+                if (humanPhraseIndex == 0)
+                {
+                    WriteHereHint.gameObject.SetActive(false);
+                }
                 //scrivo una cosa a caso 
                 if (humanPhraseIndex < humanPhrases[choseHumanPhrase].Length)
                 {
-                    humanChatText.text += humanPhrases[choseHumanPhrase][humanPhraseIndex];
-                    humanPhraseIndex++;
+                    var character = ' ';
+                    while (character.Equals(' ')) { //evito che la pressione di un tasto aggiunga solo uno spazio
+                        character = humanPhrases[choseHumanPhrase][humanPhraseIndex];
+                        humanChatText.text += character;
+                        humanPhraseIndex++;
+                    }
+
                 }
                 else
                 {

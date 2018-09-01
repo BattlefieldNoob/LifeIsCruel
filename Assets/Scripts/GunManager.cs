@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GunManager : MonoBehaviour {
@@ -24,10 +25,12 @@ public class GunManager : MonoBehaviour {
 	[SerializeField]
 	Text finalText;
 
+	private bool Shooted = false;
+
 	// Use this for initialization
 	void Start () {
-		gun = transform.FindChild ("gun");
-		hitler = transform.FindChild ("hitler");
+		gun = transform.Find ("gun");
+		hitler = transform.Find ("hitler");
         audioSource = GameObject.Find("AGUN").GetComponent<AudioSource>();
         chooseCarefullyText.SetActive(true); 
 	}
@@ -47,7 +50,9 @@ public class GunManager : MonoBehaviour {
 		}
 
 
-		if (Input.GetMouseButtonDown (0)) {
+		if (!Shooted && Input.GetMouseButtonDown (0))
+		{
+			Shooted = true;
             audioSource.clip = gunShot; 
             audioSource.Play(); 
 			if (distancefromCane < distancefromHitler) {
@@ -60,6 +65,7 @@ public class GunManager : MonoBehaviour {
 
 		}
 	}
+	
     [Space]
     [TextArea]
 	public string shotAtDoggoMessage="YOU KILLED DOGGO!";
@@ -84,5 +90,24 @@ public class GunManager : MonoBehaviour {
 			finalText.color = Color.Lerp (finalText.color, Color.white, Time.deltaTime * 2);
 			yield return new WaitForEndOfFrame ();
 		}
+
+		StartCoroutine(WaitAndReset());
+	}
+
+	IEnumerator WaitAndReset()
+	{
+		//User can read the message
+		yield return new WaitForSeconds(5f);
+		
+		
+		while (finalText.color.a > 0.01f) {
+			finalText.color = Color.Lerp (finalText.color, Color.clear, Time.deltaTime * 2);
+			yield return new WaitForEndOfFrame ();
+		}
+		
+		//Suspance
+		yield return new WaitForSeconds(2f);
+		
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 }
